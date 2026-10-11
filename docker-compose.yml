@@ -1,0 +1,56 @@
+# Ambiente local completo: API ReRoute + banco Oracle.
+# Uso: cp .env.example .env  (preencha as senhas)  &&  docker compose up -d --build
+name: reroute
+
+services:
+  oracle:
+    image: gvenzl/oracle-free:23-slim-faststart
+    container_name: reroute-oracle
+    environment:
+      # Senha do SYS/SYSTEM e usuário (schema) da aplicação, criados na primeira subida
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD:?defina ORACLE_PASSWORD no .env}
+      APP_USER: ${DB_USER:-reroute}
+      APP_USER_PASSWORD: ${DB_PASSWORD:?defina DB_PASSWORD no .env}
+    ports:
+      - "${DB_PORT:-1521}:1521"
+    volumes:
+      # Os dados ficam no volume e sobrevivem a docker compose down
+      - oracle-data:/opt/oracle/oradata
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    networks:
+      - reroute-net
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: reroute-api:local
+    container_name: reroute-api
+    depends_on:
+      oracle:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+      # "oracle" é o nome do serviço acima, resolvido pelo DNS da rede reroute-net
+      OracleConnection__ConnectionString: "User Id=${DB_USER:-reroute};Password=${DB_PASSWORD};Data Source=oracle:1521/FREEPDB1"
+      Jwt__SecretKey: ${JWT_SECRET_KEY:?defina JWT_SECRET_KEY no .env}
+      Jwt__Issuer: ${JWT_ISSUER:-ReRoute.Api}
+      Jwt__Audience: ${JWT_AUDIENCE:-ReRoute.Client}
+    ports:
+      - "${API_PORT:-8080}:8080"
+    networks:
+      - reroute-net
+    restart: unless-stopped
+
+volumes:
+  oracle-data:
+
+networks:
+  reroute-net:
+    driver: bridge
