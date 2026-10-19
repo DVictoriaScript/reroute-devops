@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/reroute/erro-de-login.json",
+  "title": "Erro de login",
+  "type": "object",
+  "required": [
+    "mensagem"
+  ],
+  "properties": {
+    "mensagem": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

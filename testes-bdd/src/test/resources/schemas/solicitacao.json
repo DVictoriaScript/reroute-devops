@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/reroute/solicitacao.json",
+  "title": "Solicitação",
+  "type": "object",
+  "required": [
+    "solicitacaoId",
+    "donationId",
+    "participantId",
+    "dataSolicitacao",
+    "status"
+  ],
+  "properties": {
+    "solicitacaoId": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "donationId": {
+      "type": "integer"
+    },
+    "participantId": {
+      "type": "integer"
+    },
+    "dataSolicitacao": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
+    },
+    "status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

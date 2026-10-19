@@ -22,14 +22,27 @@ builder.Services.AddControllers();
 // Documentação Swagger/OpenAPI
 builder.Services.AddReRouteSwagger();
 
-// Banco de dados Oracle
-// A connection string vem de variável de ambiente (OracleConnection__ConnectionString)
-var connectionString = builder.Configuration["OracleConnection:ConnectionString"];
-if (string.IsNullOrWhiteSpace(connectionString))
-    throw new InvalidOperationException("OracleConnection:ConnectionString não configurada.");
+// Banco em memória para os testes automatizados (USE_INMEMORY_DB=true)
+// Usado só no container de testes BDD, sem nenhuma conexão com o Oracle
+var usarBancoEmMemoria = string.Equals(
+    builder.Configuration["USE_INMEMORY_DB"], "true", StringComparison.OrdinalIgnoreCase);
 
-builder.Services.AddDbContext<ReRouteDbContext>(options =>
-    options.UseOracle(connectionString));
+if (usarBancoEmMemoria)
+{
+    builder.Services.AddDbContext<ReRouteDbContext>(options =>
+        options.UseInMemoryDatabase("ReRouteTestesDb"));
+}
+else
+{
+    // Banco de dados Oracle
+    // A connection string vem de variável de ambiente (OracleConnection__ConnectionString)
+    var connectionString = builder.Configuration["OracleConnection:ConnectionString"];
+    if (string.IsNullOrWhiteSpace(connectionString))
+        throw new InvalidOperationException("OracleConnection:ConnectionString não configurada.");
+
+    builder.Services.AddDbContext<ReRouteDbContext>(options =>
+        options.UseOracle(connectionString));
+}
 
 // Repositórios e serviços (injeção de dependência)
 builder.Services.AddScoped<IParticipanteRepository, ParticipanteRepository>();

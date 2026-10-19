@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/reroute/lista-de-registros-esg.json",
+  "title": "Lista de Registro ESG",
+  "type": "object",
+  "required": [
+    "items",
+    "page",
+    "pageSize",
+    "totalItems",
+    "totalPages",
+    "hasPrevious",
+    "hasNext"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "registroId",
+          "donationId",
+          "residuoEvitado",
+          "co2Evitado",
+          "dataRegistro"
+        ],
+        "properties": {
+          "registroId": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "donationId": {
+            "type": "integer"
+          },
+          "residuoEvitado": {
+            "type": "number",
+            "minimum": 0
+          },
+          "co2Evitado": {
+            "type": "number",
+            "minimum": 0
+          },
+          "dataRegistro": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "page": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "pageSize": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "totalItems": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "totalPages": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "hasPrevious": {
+      "type": "boolean"
+    },
+    "hasNext": {
+      "type": "boolean"
+    }
+  }
+}

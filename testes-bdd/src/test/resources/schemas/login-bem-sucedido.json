@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/reroute/login-bem-sucedido.json",
+  "title": "Login bem-sucedido",
+  "type": "object",
+  "required": [
+    "token",
+    "nome",
+    "email",
+    "tipoPerfil",
+    "expiraEm"
+  ],
+  "properties": {
+    "token": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+    },
+    "nome": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "tipoPerfil": {
+      "type": "string",
+      "enum": [
+        "DOADOR",
+        "RECEPTOR",
+        "TRANSPORTADOR"
+      ]
+    },
+    "expiraEm": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
+    }
+  },
+  "additionalProperties": false
+}

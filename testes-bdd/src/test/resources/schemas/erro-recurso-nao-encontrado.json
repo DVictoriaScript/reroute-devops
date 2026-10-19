@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/reroute/erro-recurso-nao-encontrado.json",
+  "title": "Erro de recurso não encontrado",
+  "type": "object",
+  "required": [
+    "title",
+    "status",
+    "detail"
+  ],
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "detail": {
+      "type": "string"
+    }
+  }
+}

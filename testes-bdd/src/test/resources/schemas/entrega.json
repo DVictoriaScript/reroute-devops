@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/reroute/entrega.json",
+  "title": "Entrega",
+  "type": "object",
+  "required": [
+    "entregaId",
+    "solicitacaoId",
+    "participantId",
+    "dataAceite",
+    "dataEntrega",
+    "status"
+  ],
+  "properties": {
+    "entregaId": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "solicitacaoId": {
+      "type": "integer"
+    },
+    "participantId": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "dataAceite": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
+    },
+    "dataEntrega": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
+    },
+    "status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

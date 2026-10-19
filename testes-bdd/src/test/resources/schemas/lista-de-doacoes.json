@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/reroute/lista-de-doacoes.json",
+  "title": "Lista de Doação",
+  "type": "object",
+  "required": [
+    "items",
+    "page",
+    "pageSize",
+    "totalItems",
+    "totalPages",
+    "hasPrevious",
+    "hasNext"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "donationId",
+          "participantId",
+          "nomeItem",
+          "descricao",
+          "tamanho",
+          "localRetirada",
+          "status",
+          "createdAt"
+        ],
+        "properties": {
+          "donationId": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "participantId": {
+            "type": "integer"
+          },
+          "nomeItem": {
+            "type": "string"
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "tamanho": {
+            "type": "string"
+          },
+          "localRetirada": {
+            "type": "string"
+          },
+          "status": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "page": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "pageSize": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "totalItems": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "totalPages": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "hasPrevious": {
+      "type": "boolean"
+    },
+    "hasNext": {
+      "type": "boolean"
+    }
+  }
+}

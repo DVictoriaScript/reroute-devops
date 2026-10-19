@@ -1,0 +1,25 @@
+# API ReRoute em modo de teste para os testes BDD (banco em memória, sem Oracle)
+# Fica na raiz do repositório da API, ao lado do Dockerfile.
+# Uso: docker compose -f docker-compose.testes.yml up -d --build
+name: reroute-testes
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: reroute-api-testes
+    container_name: reroute-api-testes
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      # Liga o EF Core InMemory no Program.cs e popula o seed (5 participantes, 5 doações etc.)
+      USE_INMEMORY_DB: "true"
+      # Chave só para teste, não é a chave do ambiente real
+      Jwt__SecretKey: chave-de-teste-reroute-com-mais-de-32-caracteres
+      Jwt__Issuer: ReRoute.Api
+      Jwt__Audience: ReRoute.Client
+    extra_hosts:
+      # Garantia extra: mesmo que algo tente, o Oracle da FIAP não é alcançado pelo container
+      - "oracle.fiap.com.br:127.0.0.1"
+    ports:
+      - "8080:8080"
